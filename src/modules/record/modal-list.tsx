@@ -29,7 +29,12 @@ export default function ModalList({
 					<div className="relative h-fit">
 						{dataRecord.length ? (
 							dataRecord.map((data) => (
-								<p key={data.id}>{data.email}</p>
+								<p
+									key={data.id}
+									className="px-3 py-2 mb-1 rounded-md bg-slate-200"
+								>
+									{data.email}
+								</p>
 							))
 						) : (
 							<p className="text-center">No Records</p>
