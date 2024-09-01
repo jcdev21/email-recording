@@ -1,12 +1,19 @@
-import { API_URL } from '@/constans';
 import { format } from 'date-fns';
+import { z } from 'zod';
+import { recordSchema } from './form-schema';
+import { axios } from '@/lib/axios';
 
 export async function getRecordsByDate(date: Date) {
-	try {
-		const formatDate = format(date, 'yyyy-MM-dd');
-		const response = await fetch(`${API_URL}/records?date=${formatDate}`);
-		return await response.json();
-	} catch (error) {
-		return error;
-	}
+	const formatDate = format(date, 'yyyy-MM-dd');
+	const response = await axios.get(`records?date=${formatDate}`);
+	return await response;
+}
+
+export async function storeRecord(payload: z.infer<typeof recordSchema>) {
+	const requestBody = {
+		...payload,
+		date: format(payload.date, 'yyyy-MM-dd'),
+	};
+	const response = await axios.post('records', requestBody);
+	return await response;
 }
